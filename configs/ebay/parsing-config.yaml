@@ -1,0 +1,14 @@
+domain: 'ebay.com'
+
+pathParams:
+  - sch
+  - Cell-Phones-Smartphones
+  - 9355
+  - i.html
+
+queryParams:
+  _sop: 12
+  _ipg: 200
+  _dmd: 1
+  LH_BIN: ""
+  rt: nc        
