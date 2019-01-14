@@ -1,3 +1,4 @@
+import argparse
 import os
 import aiohttp
 import asyncio
@@ -93,13 +94,20 @@ class EbayScraping(object):
 
 
 if __name__ == '__main__':
-    pages_gap = 25
-    start = 103
+    parser = argparse.ArgumentParser(description='Process async ebay scrapping')
+    parser.add_argument('-s', '--start', dest='start', type=int, default=1, help='First page for pagination')
+    parser.add_argument('-p', '--pages', dest='pages', type=int, default=25, help='Number of pages per processors')
+    parser.add_argument('-f', '--file', action='store_true', dest='file', default=False, help='Save to local file')
+
+    args = parser.parse_args()
+
     for i in range(multiprocessing.cpu_count()):
-        ebay_scraping = EbayScraping(from_page=start,
-                                     to_page=start + pages_gap,
-                                     site_url=f'https://www.ebay.com/b/Cell-Phones-Smartphones/9355?_pgn={start}',)
+        ebay_scraping = EbayScraping(from_page=args.start,
+                                     to_page=args.start + args.pages,
+                                     site_url=f'https://www.ebay.com/b/Cell-Phones-Smartphones/9355?_pgn={args.start}')
         p = multiprocessing.Process(target=ebay_scraping.execute_parse)
         p.start()
-        start += pages_gap + 1
-    # mongo_collection_to_file('json')
+        args.start += args.pages + 1
+
+    if args.file:
+        mongo_collection_to_file('json')

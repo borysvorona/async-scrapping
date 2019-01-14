@@ -3,6 +3,7 @@ import yaml
 import json
 import codecs
 
+from configs import settings
 from patterns import Singleton
 from pymongo import MongoClient
 
@@ -25,7 +26,9 @@ class GoodMeta(type):
     def __new__(mcs, name, bases, attrs):
         new_class = super().__new__(mcs, name, bases, attrs)
         new_class._specifications = Specifications()
-        client = MongoClient(port=27017, connect=False)
+        client = MongoClient(host=settings.MONGO_DB_HOST,
+                             port=settings.MONGO_DB_PORT,
+                             connect=False)
         new_class._mongo_db = client.ebay_scraping
         return new_class
 
@@ -87,7 +90,9 @@ class Good(object, metaclass=GoodMeta):
 
 
 def mongo_collection_to_file(file_format='json'):
-    client = MongoClient(port=27017, connect=False)
+    client = MongoClient(host=settings.MONGO_DB_HOST,
+                         port=settings.MONGO_DB_PORT,
+                         connect=False)
     db = client.ebay_scraping
     collection = db.goods
     cursor = collection.find({})
