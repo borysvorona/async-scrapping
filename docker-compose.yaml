@@ -10,12 +10,9 @@ services:
         - USER_ID=${USER_ID}
     ports:
       - ${APP_PORT}:${APP_PORT}
-    restart: on-failure
-    command: 'python3 /code/scraper.py'
+    command: 'python3 /project/scraper.py -f'
     env_file:
       - ./.env
-    links:
-      - db:mongodb
     depends_on:
       - db
     networks:
@@ -23,6 +20,8 @@ services:
   db:
     container_name: mongo_db
     image: mongo:3.6-stretch
+    volumes:
+      - ./data/mongo:/data/db
     env_file:
       - ./.env
     ports:
@@ -32,3 +31,4 @@ services:
 
 networks:
   project-network:
+    driver: bridge

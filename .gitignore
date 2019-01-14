@@ -9,3 +9,5 @@ venv/*
 .venv/*
 dumps/*
 .env.secret
+data/*
+project/*

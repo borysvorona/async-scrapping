@@ -18,7 +18,7 @@ class EbayScraping(object):
                  request_timeout=10,
                  result_directory=None):
         self.site_url = site_url
-        self.config_file = os.path.join(self.ROOT_DIR, 'configs/ebay/parsing-config.yml')
+        self.config_file = os.path.normpath(os.path.join(self.ROOT_DIR, 'configs/ebay/parsing-config.yml'))
         self.result_directory = result_directory or os.path.join(self.ROOT_DIR, 'results')
         self.request_timeout = request_timeout
         self.from_page = from_page
@@ -96,8 +96,8 @@ class EbayScraping(object):
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Process async ebay scrapping')
     parser.add_argument('-s', '--start', dest='start', type=int, default=1, help='First page for pagination')
-    parser.add_argument('-p', '--pages', dest='pages', type=int, default=25, help='Number of pages per processors')
-    parser.add_argument('-f', '--file', action='store_true', dest='file', default=False, help='Save to local file')
+    parser.add_argument('-p', '--pages', dest='pages', type=int, default=10, help='Number of pages per processors')
+    parser.add_argument('-f', '--file', action='store_true', dest='file', default=True, help='Save to local file')
 
     args = parser.parse_args()
 
