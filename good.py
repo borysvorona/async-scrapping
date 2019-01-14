@@ -1,18 +1,19 @@
-import os
-import yaml
-import json
 import codecs
+import json
+import os
+
+import yaml
+from pymongo import MongoClient
 
 from configs import settings
 from patterns import Singleton
-from pymongo import MongoClient
 
 
 class Specifications(object, metaclass=Singleton):
     def __init__(self):
         self.extractor_file_path = os.path.normpath(
-            os.path.join(os.path.dirname(os.path.abspath(__file__)),
-                         'configs/ebay/extractor/extractor.yaml'))
+            os.path.join(os.path.dirname(os.path.abspath(__file__)), 'configs/ebay/extractor/extractor.yaml')
+        )
         try:
             with open(self.extractor_file_path, 'r') as stream:
                 self.data = yaml.load(stream)
@@ -27,9 +28,11 @@ class GoodMeta(type):
     def __new__(mcs, name, bases, attrs):
         new_class = super().__new__(mcs, name, bases, attrs)
         new_class._specifications = Specifications()
-        client = MongoClient(host=settings.MONGO_DB_HOST,
-                             port=settings.MONGO_DB_PORT,
-                             connect=False)
+        client = MongoClient(
+            host=settings.MONGO_DB_HOST,
+            port=settings.MONGO_DB_PORT,
+            connect=False
+        )
         new_class._mongo_db = client.ebay_scraping
         return new_class
 
@@ -91,9 +94,11 @@ class Good(object, metaclass=GoodMeta):
 
 
 def mongo_collection_to_file(file_format='json'):
-    client = MongoClient(host=settings.MONGO_DB_HOST,
-                         port=settings.MONGO_DB_PORT,
-                         connect=False)
+    client = MongoClient(
+        host=settings.MONGO_DB_HOST,
+        port=settings.MONGO_DB_PORT,
+        connect=False
+    )
     db = client.ebay_scraping
     collection = db.goods
     cursor = collection.find({})
@@ -115,5 +120,5 @@ def mongo_collection_to_file(file_format='json'):
                     document['title'] = (''.join(title.split('Details about')[1:])).lstrip().rstrip()
                 except AttributeError:
                     document['title'] = title or 'Unknown'
-                file.write(';'.join([x.replace('\n', '').lstrip().rstrip() if x else 'Unknown' for x in document.values()]))
+                file.write(';'.join([x.replace('\n', '').strip() if x else 'Unknown' for x in document.values()]))
                 file.write('\n')

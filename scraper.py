@@ -1,9 +1,10 @@
 import argparse
-import os
-import aiohttp
 import asyncio
-import async_timeout
 import multiprocessing
+import os
+
+import aiohttp
+import async_timeout
 from bs4 import BeautifulSoup
 
 from good import Good, Specifications, mongo_collection_to_file
@@ -102,9 +103,11 @@ if __name__ == '__main__':
     args = parser.parse_args()
 
     for i in range(multiprocessing.cpu_count()):
-        ebay_scraping = EbayScraping(from_page=args.start,
-                                     to_page=args.start + args.pages,
-                                     site_url=f'https://www.ebay.com/b/Cell-Phones-Smartphones/9355?_pgn={args.start}')
+        ebay_scraping = EbayScraping(
+            from_page=args.start,
+            to_page=args.start + args.pages,
+            site_url=f'https://www.ebay.com/b/Womens-Shoes/3034?_pgn={args.start}'
+        )
         p = multiprocessing.Process(target=ebay_scraping.execute_parse)
         p.start()
         args.start += args.pages + 1
