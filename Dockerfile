@@ -10,3 +10,4 @@ VOLUME [$PROJECT_WORKDIR]
 COPY . $PROJECT_WORKDIR
 
 RUN pip install --no-cache-dir --requirement $PROJECT_WORKDIR/requirements.txt
+RUN python setup.py build_ext --inplace

@@ -6,7 +6,7 @@ import yaml
 from pymongo import MongoClient
 
 from configs import settings
-from patterns import Singleton
+from extentions.patterns import Singleton
 
 
 class Specifications(object, metaclass=Singleton):
