@@ -12,7 +12,7 @@ from extentions.patterns import Singleton
 class Specifications(object, metaclass=Singleton):
     def __init__(self):
         self.extractor_file_path = os.path.normpath(
-            os.path.join(os.path.dirname(os.path.abspath(__file__)), 'configs/ebay/extractor/extractor.yaml')
+            os.path.join(os.path.dirname(os.path.abspath(__file__)), 'configs/rozetka/extractor/extractor.yaml')
         )
         try:
             with open(self.extractor_file_path, 'r') as stream:

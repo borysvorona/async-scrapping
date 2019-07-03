@@ -1,0 +1,18 @@
+domain: 'https://rozetka.com.ua'
+
+pathParams:
+  - notebooks
+  - c80004
+
+filterParams:
+  operator: =
+  type:
+    useQueryParams: false
+    useSlash: true
+  keyword: filter
+  categorySeparator: ;
+  separator: ,
+  paging:
+    keyword: page
+  sorting:
+    keyword: sort
