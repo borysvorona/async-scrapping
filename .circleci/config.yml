@@ -1,10 +1,11 @@
 version: 2
 jobs:
   build:
+    working_directory: /project
     docker:
       - image: circleci/python:3.7
-    enviroment:
-      PYTHONUNBUFFERED: 1
+        enviroment:
+          PYTHONUNBUFFERED: 1
     steps:
       - checkout
       - run:
